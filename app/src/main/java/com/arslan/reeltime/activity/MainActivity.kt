@@ -17,6 +17,7 @@ import com.arslan.reeltime.adapter.SliderAdapter
 import com.arslan.reeltime.databinding.ActivityMainBinding
 import com.arslan.reeltime.model.Film
 import com.arslan.reeltime.model.SliderItems
+import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.database.DataSnapshot
 import com.google.firebase.database.DatabaseError
 import com.google.firebase.database.DatabaseReference
@@ -42,6 +43,7 @@ class MainActivity : AppCompatActivity() {
         initBanner()
         initTopMovies()
         initUpcoming()
+        setUserName()
 
         binding.bottomMenu.setOnItemSelectedListener(object : ChipNavigationBar.OnItemSelectedListener {
             override fun onItemSelected(id: Int) {
@@ -66,6 +68,15 @@ class MainActivity : AppCompatActivity() {
     override fun onResume() {
         super.onResume()
         binding.bottomMenu.setItemSelected(R.id.explorer, true)
+    }
+
+    private fun setUserName() {
+        val user = FirebaseAuth.getInstance().currentUser
+        if (user != null) {
+            binding.greetingTxt.text = "Hello, ${user.displayName}"
+        } else {
+            binding.greetingTxt.text = "Hello, Guest"
+        }
     }
 
     private fun initTopMovies() {
