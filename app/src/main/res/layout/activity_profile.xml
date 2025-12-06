@@ -4,8 +4,16 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@drawable/light_black_bg"
+    android:background="@color/black"
     tools:context=".activity.ProfileActivity">
+
+    <ImageView
+        android:id="@+id/backButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginHorizontal="16dp"
+        android:layout_marginTop="57dp"
+        app:srcCompat="@drawable/back_2" />
 
     <TextView
         android:id="@+id/profileTitle"
@@ -18,32 +26,44 @@
         android:textSize="24sp"
         android:textStyle="bold" />
 
-    <androidx.cardview.widget.CardView
-        android:id="@+id/avatarCard"
+    <FrameLayout
+        android:id="@+id/avatarContainer"
         android:layout_width="120dp"
         android:layout_height="120dp"
         android:layout_below="@id/profileTitle"
         android:layout_centerHorizontal="true"
-        android:layout_marginTop="32dp"
-        app:cardCornerRadius="60dp"
-        app:cardBackgroundColor="@color/green">
+        android:layout_marginTop="32dp">
 
-        <TextView
-            android:id="@+id/initialsTxt"
+        <androidx.cardview.widget.CardView
+            android:id="@+id/avatarCard"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:gravity="center"
-            android:textColor="@color/white"
-            android:textSize="48sp"
-            android:textStyle="bold"
-            tools:text="A" />
-    </androidx.cardview.widget.CardView>
+            app:cardBackgroundColor="@color/green"
+            app:cardCornerRadius="60dp">
+
+            <ImageView
+                android:id="@+id/profileImage"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:scaleType="centerCrop" />
+
+            <TextView
+                android:id="@+id/initialsTxt"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:gravity="center"
+                android:textColor="@color/white"
+                android:textSize="48sp"
+                android:textStyle="bold"
+                tools:text="A" />
+        </androidx.cardview.widget.CardView>
+    </FrameLayout>
 
     <TextView
         android:id="@+id/nameTxt"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_below="@id/avatarCard"
+        android:layout_below="@id/avatarContainer"
         android:layout_centerHorizontal="true"
         android:layout_marginTop="16dp"
         android:textColor="@color/white"

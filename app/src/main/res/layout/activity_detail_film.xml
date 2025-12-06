@@ -21,15 +21,22 @@
             android:layout_height="wrap_content"
             android:orientation="vertical" >
 
-            <ImageView
-                android:id="@+id/filmPic"
+            <!-- Wrap filmPic inside BlurTarget -->
+            <eightbitlab.com.blurview.BlurTarget
+                android:id="@+id/blurTarget"
                 android:layout_width="0dp"
                 android:layout_height="600dp"
-                android:scaleType="centerCrop"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent"
-                tools:srcCompat="@tools:sample/avatars" />
+                app:layout_constraintTop_toTopOf="parent">
+
+                <ImageView
+                    android:id="@+id/filmPic"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:scaleType="centerCrop"
+                    tools:srcCompat="@tools:sample/avatars" />
+            </eightbitlab.com.blurview.BlurTarget>
 
             <ImageView
                 android:id="@+id/backBtn"
@@ -47,10 +54,10 @@
                 android:layout_height="wrap_content"
                 android:layout_margin="24dp"
                 app:blurOverlayColor="#90000000"
-                app:layout_constraintBottom_toBottomOf="@+id/filmPic"
+                app:layout_constraintBottom_toBottomOf="@+id/blurTarget"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/filmPic">
+                app:layout_constraintTop_toBottomOf="@+id/blurTarget">
 
                 <LinearLayout
                     android:id="@+id/movieDetail"
@@ -63,6 +70,7 @@
                     android:paddingEnd="16dp"
                     android:paddingBottom="32dp">
 
+                    <!-- Rest of your layout unchanged -->
                     <LinearLayout
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
@@ -126,7 +134,6 @@
                             android:id="@+id/imbdTxt"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-
                             android:text="@string/imdb"
                             android:textColor="@color/white" />
                     </LinearLayout>

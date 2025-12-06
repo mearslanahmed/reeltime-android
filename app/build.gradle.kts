@@ -16,6 +16,8 @@ android {
         versionName = "1.0"
 
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
+        // Enable RenderScript support for the BlurView library
+        renderscriptSupportModeEnabled = true
     }
 
     buildTypes {
@@ -35,22 +37,23 @@ android {
         jvmTarget = "11"
     }
     buildFeatures {
+        renderScript = true
         viewBinding = true
     }
 }
 
 dependencies {
     // Import the Firebase BoM
-    implementation(platform("com.google.firebase:firebase-bom:33.1.0"))
+    implementation(platform("com.google.firebase:firebase-bom:34.6.0"))
 
     // Add the dependency for the Firebase Authentication library
-    implementation("com.google.firebase:firebase-auth-ktx")
+    implementation(libs.firebase.auth)
 
-    implementation("androidx.core:core-ktx:1.10.1")
-    implementation("androidx.appcompat:appcompat:1.6.1")
+    implementation("androidx.core:core-ktx:1.17.0")
+    implementation("androidx.appcompat:appcompat:1.7.1")
     implementation(libs.material)
-    implementation("androidx.activity:activity:1.8.0")
-    implementation("androidx.constraintlayout:constraintlayout:2.1.4")
+    implementation("androidx.activity:activity:1.12.1")
+    implementation("androidx.constraintlayout:constraintlayout:2.2.1")
     implementation(libs.firebase.database)
     implementation(libs.androidx.viewpager2)
     implementation(libs.androidx.recyclerview)
@@ -59,8 +62,8 @@ dependencies {
     androidTestImplementation(libs.androidx.junit)
     androidTestImplementation(libs.androidx.espresso.core)
 
-    implementation ("com.github.bumptech.glide:glide:4.16.0")
+    implementation ("com.github.bumptech.glide:glide:5.0.5")
     implementation ("com.github.ismaeldivita:chip-navigation-bar:1.4.0")
-    implementation ("com.github.Dimezis:BlurView:version-2.0.3")
-    implementation("com.google.zxing:core:3.5.3")
+    implementation("com.github.Dimezis:BlurView:version-3.2.0")
+    implementation("com.google.zxing:core:3.5.4")
 }

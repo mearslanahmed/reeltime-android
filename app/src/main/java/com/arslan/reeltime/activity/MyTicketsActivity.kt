@@ -17,6 +17,7 @@ class MyTicketsActivity : AppCompatActivity() {
     private lateinit var binding: ActivityMyTicketsBinding
     private lateinit var adapter: MyTicketsAdapter
     private val tickets = mutableListOf<TicketData>()
+    private val ticketKeys = mutableListOf<String>()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -25,7 +26,7 @@ class MyTicketsActivity : AppCompatActivity() {
         setContentView(binding.root)
 
         binding.ticketsRecyclerView.layoutManager = LinearLayoutManager(this)
-        adapter = MyTicketsAdapter(tickets)
+        adapter = MyTicketsAdapter(tickets, ::deleteTicket)
         binding.ticketsRecyclerView.adapter = adapter
 
         loadTicketsFromFirebase()
@@ -38,10 +39,13 @@ class MyTicketsActivity : AppCompatActivity() {
         database.addValueEventListener(object : ValueEventListener {
             override fun onDataChange(snapshot: DataSnapshot) {
                 tickets.clear()
+                ticketKeys.clear()
                 for (ticketSnapshot in snapshot.children) {
                     val ticket = ticketSnapshot.getValue(TicketData::class.java)
-                    if (ticket != null) {
+                    val ticketKey = ticketSnapshot.key
+                    if (ticket != null && ticketKey != null) {
                         tickets.add(ticket)
+                        ticketKeys.add(ticketKey)
                     }
                 }
                 adapter.notifyDataSetChanged()
@@ -51,5 +55,16 @@ class MyTicketsActivity : AppCompatActivity() {
                 // Handle error
             }
         })
+    }
+
+    private fun deleteTicket(position: Int) {
+        val userId = FirebaseAuth.getInstance().currentUser?.uid ?: return
+        if (position >= 0 && position < ticketKeys.size) {
+            val ticketKey = ticketKeys[position]
+            FirebaseDatabase.getInstance().getReference("tickets")
+                .child(userId)
+                .child(ticketKey)
+                .removeValue()
+        }
     }
 }

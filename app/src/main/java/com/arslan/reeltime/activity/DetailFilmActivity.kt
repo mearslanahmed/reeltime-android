@@ -3,14 +3,15 @@ package com.arslan.reeltime.activity
 import android.content.Intent
 import android.graphics.Bitmap
 import android.graphics.Canvas
+import android.os.Build
 import android.os.Bundle
 import android.view.View
-import android.view.ViewGroup
-import android.view.ViewOutlineProvider
 import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.FileProvider
+import androidx.core.graphics.createBitmap
 import androidx.recyclerview.widget.LinearLayoutManager
+import com.arslan.reeltime.R
 import com.arslan.reeltime.adapter.CastListAdapter
 import com.arslan.reeltime.adapter.GenreEachFilmAdapter
 import com.arslan.reeltime.databinding.ActivityDetailFilmBinding
@@ -19,7 +20,7 @@ import com.bumptech.glide.Glide
 import com.bumptech.glide.load.resource.bitmap.CenterCrop
 import com.bumptech.glide.load.resource.bitmap.GranularRoundedCorners
 import com.bumptech.glide.request.RequestOptions
-import eightbitlab.com.blurview.RenderScriptBlur
+import eightbitlab.com.blurview.BlurTarget
 import java.io.File
 import java.io.FileOutputStream
 
@@ -32,7 +33,6 @@ class DetailFilmActivity : AppCompatActivity() {
         binding = ActivityDetailFilmBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
-
         setVariables()
 
         binding.shareBtn.setOnClickListener {
@@ -41,59 +41,67 @@ class DetailFilmActivity : AppCompatActivity() {
     }
 
     private fun setVariables() {
-        val film = intent.getSerializableExtra("object") as Film
-        val requestOptions = RequestOptions().transform(
-            CenterCrop(),
-            GranularRoundedCorners(0f, 0f, 50f, 50f)
-        )
-
-        Glide.with(this)
-            .load(film.Poster)
-            .apply(requestOptions)
-            .into(binding.filmPic)
-
-        binding.titleTxt.text = film.Title
-        binding.imbdTxt.text= "IMDB ${film.Imdb}"
-        binding.movieTimeTxt.text = "${film.Year} - ${film.Time}"
-        binding.movieSummaryTxt.text = film.Description
-
-        binding.backBtn.setOnClickListener {
-            finish()
+        val film = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
+            intent.getSerializableExtra("object", Film::class.java)
+        } else {
+            @Suppress("DEPRECATION")
+            intent.getSerializableExtra("object") as? Film
         }
 
-        val radius = 10f
-        val decorView = window.decorView
-        val rootView = decorView.findViewById<ViewGroup>(android.R.id.content)
-        val windowsBackground = decorView.background
+        film?.let { filmObject ->
+            val requestOptions = RequestOptions().transform(
+                CenterCrop(),
+                GranularRoundedCorners(0f, 0f, 50f, 50f)
+            )
 
-        binding.blurView.setupWith(rootView, RenderScriptBlur(this))
-            .setFrameClearDrawable(windowsBackground)
-            .setBlurRadius(radius)
+            Glide.with(this)
+                .load(filmObject.Poster)
+                .apply(requestOptions)
+                .into(binding.filmPic)
 
-        binding.blurView.outlineProvider = ViewOutlineProvider.BACKGROUND
-        binding.blurView.clipToOutline = true
+            binding.titleTxt.text = filmObject.Title
+            binding.imbdTxt.text = getString(R.string.imdb_rating, filmObject.Imdb)
+            binding.movieTimeTxt.text = getString(R.string.movie_duration, filmObject.Year, filmObject.Time)
+            binding.movieSummaryTxt.text = filmObject.Description
 
+            binding.backBtn.setOnClickListener {
+                val intent = Intent(this, MainActivity::class.java)
+                intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP or Intent.FLAG_ACTIVITY_NEW_TASK)
+                startActivity(intent)
+                finish()
+            }
 
-        film.Genre?.let{
-            binding.genreView.adapter = GenreEachFilmAdapter(it)
-            binding.genreView.layoutManager =
-                LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, false)
-        }
-        film.Casts?.let{
-            binding.castListView.layoutManager =
-                LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, false)
-            binding.castListView.adapter = CastListAdapter(it)
-        }
+            val decorView = window.decorView
+            val windowBackground = decorView.background
 
-        binding.buyTicketBtn.setOnClickListener {
-            val intent = Intent(this, SeatListActivity::class.java)
-            intent.putExtra("film", film)
-            startActivity(intent)
+            val blurTarget = findViewById<BlurTarget>(R.id.blurTarget)
+
+            binding.blurView.setupWith(blurTarget)
+                .setFrameClearDrawable(windowBackground)
+                .setBlurRadius(10f)
+
+            filmObject.Genre?.let { genre ->
+                binding.genreView.adapter = GenreEachFilmAdapter(genre)
+                binding.genreView.layoutManager =
+                    LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, false)
+            }
+
+            filmObject.Casts?.let { casts ->
+                binding.castListView.adapter = CastListAdapter(casts)
+                binding.castListView.layoutManager =
+                    LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, false)
+            }
+
+            binding.buyTicketBtn.setOnClickListener {
+                val intent = Intent(this, SeatListActivity::class.java)
+                intent.putExtra("film", filmObject)
+                startActivity(intent)
+            }
         }
     }
 
     private fun shareMovieDetails(){
-        val bitmap = getScreenShotFromView(binding.movieDetail)
+        val bitmap = getScreenShotFromView(binding.root)
         if (bitmap != null) {
             val file = File(externalCacheDir, "movie.png")
             val fOut = FileOutputStream(file)
@@ -112,7 +120,7 @@ class DetailFilmActivity : AppCompatActivity() {
     private fun getScreenShotFromView(view: View): Bitmap? {
         var screenshot: Bitmap? = null
         try {
-            screenshot = Bitmap.createBitmap(view.measuredWidth, view.measuredHeight, Bitmap.Config.ARGB_8888)
+            screenshot = createBitmap(view.measuredWidth, view.measuredHeight, Bitmap.Config.ARGB_8888)
             val canvas = Canvas(screenshot)
             view.draw(canvas)
         } catch (e: Exception){

@@ -9,13 +9,15 @@ import com.arslan.reeltime.databinding.ViewholderTicketBinding
 import com.arslan.reeltime.model.TicketData
 import com.bumptech.glide.Glide
 
-class MyTicketsAdapter(private val tickets: List<TicketData>) :
-    RecyclerView.Adapter<MyTicketsAdapter.ViewHolder>() {
+class MyTicketsAdapter(
+    private val tickets: MutableList<TicketData>,
+    private val onDelete: (Int) -> Unit
+) : RecyclerView.Adapter<MyTicketsAdapter.ViewHolder>() {
 
     inner class ViewHolder(private val binding: ViewholderTicketBinding) :
         RecyclerView.ViewHolder(binding.root) {
 
-        fun bind(ticket: TicketData) {
+        fun bind(ticket: TicketData, position: Int) {
             Glide.with(binding.root.context)
                 .load(ticket.poster)
                 .into(binding.filmPoster)
@@ -34,6 +36,10 @@ class MyTicketsAdapter(private val tickets: List<TicketData>) :
                 intent.putExtra("totalPrice", ticket.totalPrice)
                 context.startActivity(intent)
             }
+
+            binding.cancelBtn.setOnClickListener {
+                onDelete(position)
+            }
         }
     }
 
@@ -44,7 +50,7 @@ class MyTicketsAdapter(private val tickets: List<TicketData>) :
     }
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
-        holder.bind(tickets[position])
+        holder.bind(tickets[position], position)
     }
 
     override fun getItemCount(): Int = tickets.size
