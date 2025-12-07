@@ -20,13 +20,13 @@ ReelTime is a modern and intuitive Android application for browsing movies and b
 
 ## Screenshots
 
-| Home Screen | Detail Screen | Seat Selection |
+| Home Screen | Movie Detail Screen | Seat Selection |
 | :---: | :---: | :---: |
-| *Replace with your screenshot* | *Replace with your screenshot* | *Replace with your screenshot* |
+| <img src="screenshots/05_home.png" width="250"> | <img src="screenshots/06_movie_detail.png" width="250"> | <img src="screenshots/07_seat_selection.png" width="250"> |
 
-| My Tickets | Saved Movies | Profile Screen |
+| Booked Ticket Detail | My Tickets | Profile Screen |
 | :---: | :---: | :---: |
-| *Replace with your screenshot* | *Replace with your screenshot* | *Replace with your screenshot* |
+| <img src="screenshots/08_ticket_details.png" width="250"> | <img src="screenshots/10_my_tickets.png" width="250"> | <img src="screenshots/11_profile.png" width="250"> |
 
 
 ---
@@ -37,48 +37,17 @@ ReelTime is a modern and intuitive Android application for browsing movies and b
 *   **Core**: Android SDK, AppCompat
 *   **UI**: XML, View Binding, Material Components, CardView
 *   **Architecture**: MVVM (Model-View-ViewModel) approach per activity
-*   **Firebase Suite**:
-    *   [Firebase Authentication](https://firebase.google.com/docs/auth) - For user login and registration.
-    *   [Firebase Realtime Database](https://firebase.google.com/docs/database) - For storing movie data, tickets, and saved movies.
+*   **Services**:
+    *   **Firebase Suite**:
+        *   [Firebase Authentication](https://firebase.google.com/docs/auth) - For user login and registration.
+        *   [Firebase Realtime Database](https://firebase.google.com/docs/database) - For storing movie data, tickets, and saved movies.
+    *   **[Cloudinary](https://cloudinary.com/)**: For cloud-based image storage, management, and delivery.
 *   **Asynchronous Programming**: Coroutines for background tasks.
 *   **Third-Party Libraries**:
     *   [Glide](https://github.com/bumptech/glide) - For efficient image loading and caching.
     *   [Chip Navigation Bar](https://github.com/ismaeldivita/chip-navigation-bar) - For the animated bottom navigation.
     *   [BlurView](https://github.com/Dimezis/BlurView) - For real-time background blur effects.
     *   [ZXing (Zebra Crossing)](https://github.com/zxing/zxing) - For generating QR codes on tickets.
-
----
-
-## Setup and Installation
-
-To get a local copy up and running, follow these simple steps.
-
-### Prerequisites
-
-*   Android Studio (latest version recommended)
-*   A Google account for Firebase setup
-
-### Installation
-
-1.  **Clone the repository**:
-    ```sh
-    git clone https://github.com/mearslanahmed/reeltime-android.git
-    ```
-2.  **Open in Android Studio**:
-    *   Open Android Studio and select `Open an existing Android Studio project`.
-    *   Navigate to the cloned repository and open it.
-
-3.  **Set up Firebase**:
-    *   Go to the [Firebase Console](https://console.firebase.google.com/).
-    *   Create a new project.
-    *   Add an Android app to your Firebase project with the package name `com.arslan.reeltime`.
-    *   Follow the setup instructions to download the `google-services.json` file.
-    *   Place the downloaded `google-services.json` file in the **`app`** directory of your project (`ReelTime/app/`).
-    *   Enable **Firebase Authentication** (Email/Password method) and the **Realtime Database** in the Firebase console.
-
-4.  **Build and Run**:
-    *   Let Android Studio sync the Gradle files.
-    *   Build and run the app on an emulator or a physical device.
 
 ---
 
@@ -112,6 +81,7 @@ Arslan Ahmed - [arslanahmednaseem@gmail.com](mailto:arslanahmednaseem@gmail.com)
 ## Acknowledgments
 
 *   [Firebase](https://firebase.google.com/)
+*   [Cloudinary](https://cloudinary.com/)
 *   [Glide](https://github.com/bumptech/glide)
 *   [Chip Navigation Bar](https://github.com/ismaeldivita/chip-navigation-bar)
 *   [BlurView](https://github.com/Dimezis/BlurView)
