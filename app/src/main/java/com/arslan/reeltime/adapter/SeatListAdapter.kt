@@ -15,13 +15,13 @@ class SeatListAdapter(private val seatList: List<Seat>,
 ):
 RecyclerView.Adapter<SeatListAdapter.ViewHolder>(){
     private val selectedSeatName = ArrayList<String>()
-    inner class ViewHolder(val binding: ItemSeatBinding):
+    class ViewHolder(val binding: ItemSeatBinding):
         RecyclerView.ViewHolder(binding.root)
 
     override fun onCreateViewHolder(
         parent: ViewGroup,
         viewType: Int
-    ): SeatListAdapter.ViewHolder {
+    ): ViewHolder {
         return ViewHolder(
             ItemSeatBinding.inflate(
                 LayoutInflater.from(parent.context),
@@ -31,7 +31,7 @@ RecyclerView.Adapter<SeatListAdapter.ViewHolder>(){
         )
     }
 
-    override fun onBindViewHolder(holder: SeatListAdapter.ViewHolder, position: Int) {
+    override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         val seat = seatList[position]
         holder.binding.seatTxt.text = seat.name
 
@@ -79,6 +79,6 @@ RecyclerView.Adapter<SeatListAdapter.ViewHolder>(){
     override fun getItemCount(): Int = seatList.size
 
     interface SelectedSeats{
-        fun Return(slectedName: String, num: Int)
+        fun Return (slectedName: String, num: Int)
     }
 }

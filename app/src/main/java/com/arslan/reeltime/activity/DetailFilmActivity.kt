@@ -33,7 +33,6 @@ class DetailFilmActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()
-
         binding = ActivityDetailFilmBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
@@ -88,13 +87,13 @@ class DetailFilmActivity : AppCompatActivity() {
                 .setFrameClearDrawable(windowBackground)
                 .setBlurRadius(10f)
 
-            filmObject.Genre?.let { genre ->
+            filmObject.Genre.let { genre ->
                 binding.genreView.adapter = GenreEachFilmAdapter(genre)
                 binding.genreView.layoutManager =
                     LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, false)
             }
 
-            filmObject.Casts?.let { casts ->
+            filmObject.Casts.let { casts ->
                 binding.castListView.adapter = CastListAdapter(casts)
                 binding.castListView.layoutManager =
                     LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, false)
@@ -113,9 +112,8 @@ class DetailFilmActivity : AppCompatActivity() {
         val savedMoviesRef = FirebaseDatabase.getInstance().getReference("saved_movies").child(userId)
 
         film.Title?.let { title ->
-            // Firebase keys cannot contain '.', '#', '$', '[', ']', or '/'
-            val sanitizedTitle = title.replace(".", "").replace("#", "").replace("$", "").replace("[", "").replace("]", "").replace("/", "")
-            
+            // Firebase keys cannot contain '.', '#', '$', '[', or ']'
+            val sanitizedTitle = title.replace(Regex("[.#$\\[\\]]"), "")
             if (sanitizedTitle.isBlank()) {
                 Toast.makeText(this, "Movie title is invalid for saving.", Toast.LENGTH_SHORT).show()
                 return@let

@@ -45,7 +45,7 @@ class ProfileActivity : AppCompatActivity() {
             finish()
         }
 
-        binding.backButton.setOnClickListener {
+        binding.backBtn.setOnClickListener {
             finish()
         }
     }

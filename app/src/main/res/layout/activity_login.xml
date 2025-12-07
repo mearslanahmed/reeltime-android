@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:autofillHints="Password"
     android:background="@drawable/light_black_bg"
     tools:context=".activity.LoginActivity">
 
@@ -13,7 +13,7 @@
         android:layout_height="wrap_content"
         android:layout_centerHorizontal="true"
         android:layout_marginTop="80dp"
-        android:text="Login to Your Account"
+        android:text="@string/login_to_your_account"
         android:textColor="@color/white"
         android:textSize="24sp"
         android:textStyle="bold" />
@@ -25,7 +25,7 @@
         android:layout_below="@id/loginTitle"
         android:layout_alignStart="@id/emailEdt"
         android:layout_marginTop="24dp"
-        android:text="Email"
+        android:text="@string/email"
         android:textColor="@color/white"
         android:textStyle="bold" />
 
@@ -36,8 +36,9 @@
         android:layout_below="@id/emailLabel"
         android:layout_marginHorizontal="32dp"
         android:layout_marginTop="8dp"
+        android:autofillHints="Email"
         android:background="@drawable/edit_text_bg"
-        android:hint="Enter your email"
+        android:hint="@string/enter_your_email"
         android:inputType="textEmailAddress"
         android:padding="12dp"
         android:textColor="@color/white"
@@ -52,7 +53,7 @@
         android:layout_below="@id/emailEdt"
         android:layout_alignStart="@id/passwordEdt"
         android:layout_marginTop="16dp"
-        android:text="Password"
+        android:text="@string/password"
         android:textColor="@color/white"
         android:textStyle="bold" />
 
@@ -64,7 +65,8 @@
         android:layout_marginHorizontal="32dp"
         android:layout_marginTop="8dp"
         android:background="@drawable/edit_text_bg"
-        android:hint="Enter your password"
+        android:hint="@string/enter_your_password"
+        android:autofillHints="Password"
         android:inputType="textPassword"
         android:padding="12dp"
         android:textColor="@color/white"
@@ -80,7 +82,7 @@
         android:layout_centerHorizontal="true"
         android:layout_marginTop="24dp"
         android:background="@drawable/green_bg"
-        android:text="Login"
+        android:text="@string/login"
         android:textColor="@color/white"
         android:textStyle="bold" />
 
@@ -91,7 +93,7 @@
         android:layout_below="@id/loginBtn"
         android:layout_centerHorizontal="true"
         android:layout_marginTop="16dp"
-        android:text="Don't have an account? Register"
+        android:text="@string/don_t_have_an_account_register"
         android:textColor="@color/white" />
 
 </RelativeLayout>

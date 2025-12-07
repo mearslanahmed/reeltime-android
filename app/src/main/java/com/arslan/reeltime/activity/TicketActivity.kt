@@ -19,6 +19,8 @@ import com.google.zxing.qrcode.QRCodeWriter
 import java.io.File
 import java.io.FileOutputStream
 import java.util.Calendar
+import androidx.core.graphics.createBitmap
+import androidx.core.graphics.set
 
 class TicketActivity : AppCompatActivity() {
     private lateinit var binding: ActivityTicketBinding
@@ -69,10 +71,10 @@ class TicketActivity : AppCompatActivity() {
         val bitMatrix = writer.encode(data, BarcodeFormat.QR_CODE, 512, 512)
         val width = bitMatrix.width
         val height = bitMatrix.height
-        val bmp = Bitmap.createBitmap(width, height, Bitmap.Config.RGB_565)
+        val bmp = createBitmap(width, height, Bitmap.Config.RGB_565)
         for (x in 0 until width) {
             for (y in 0 until height) {
-                bmp.setPixel(x, y, if (bitMatrix[x, y]) Color.BLACK else Color.WHITE)
+                bmp[x, y] = if (bitMatrix[x, y]) Color.BLACK else Color.WHITE
             }
         }
         return bmp
@@ -96,7 +98,7 @@ class TicketActivity : AppCompatActivity() {
     private fun getScreenShotFromView(view: View): Bitmap? {
         var screenshot: Bitmap? = null
         try {
-            screenshot = Bitmap.createBitmap(view.measuredWidth, view.measuredHeight, Bitmap.Config.ARGB_8888)
+            screenshot = createBitmap(view.measuredWidth, view.measuredHeight)
             val canvas = Canvas(screenshot)
             view.draw(canvas)
         } catch (e: Exception) {

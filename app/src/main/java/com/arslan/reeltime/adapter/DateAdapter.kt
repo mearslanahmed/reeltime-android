@@ -19,7 +19,7 @@ class DateAdapter(private val timeSlots: List<String>):
                 binding.dayTxt.text = dateParts[0]
                 binding.dayMonthTxt.text = dateParts[1] + " " + dateParts[2]
 
-                if (selectedPosition == position) {
+                if (selectedPosition == bindingAdapterPosition) {
                     binding.mainLayout.setBackgroundResource(R.drawable.orange_bg)
                     binding.dayTxt.setTextColor(binding.root.context.getColor(R.color.black))
                     binding.dayMonthTxt.setTextColor(binding.root.context.getColor(R.color.black))
@@ -31,7 +31,7 @@ class DateAdapter(private val timeSlots: List<String>):
                 }
 
                 binding.root.setOnClickListener {
-                    val position = position
+                    val position = bindingAdapterPosition
                     if (position != RecyclerView.NO_POSITION) {
                         lastSelectedPosition = selectedPosition
                         selectedPosition = position
@@ -47,7 +47,7 @@ class DateAdapter(private val timeSlots: List<String>):
     override fun onCreateViewHolder(
         parent: ViewGroup,
         viewType: Int
-    ): DateAdapter.ViewHolder {
+    ): ViewHolder {
         return ViewHolder(ItemDateBinding.inflate(
             LayoutInflater.from(parent.context),
             parent,
@@ -55,7 +55,7 @@ class DateAdapter(private val timeSlots: List<String>):
         ))
     }
 
-    override fun onBindViewHolder(holder: DateAdapter.ViewHolder, position: Int) {
+    override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         holder.bind(timeSlots[position])
     }
 

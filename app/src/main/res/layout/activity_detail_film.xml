@@ -34,6 +34,7 @@
                     android:id="@+id/filmPic"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
+                    android:contentDescription="@string/movie_pic"
                     android:scaleType="centerCrop"
                     tools:srcCompat="@tools:sample/avatars" />
             </eightbitlab.com.blurview.BlurTarget>
@@ -44,6 +45,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginStart="16dp"
                 android:layout_marginTop="48dp"
+                android:contentDescription="@string/back_button_desc"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent"
                 app:srcCompat="@drawable/back_dark" />
@@ -81,6 +83,7 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_weight="1"
+                            android:contentDescription="@string/movie_title"
                             android:text="@string/title"
                             android:textColor="@color/white"
                             android:textSize="30sp"
@@ -92,6 +95,7 @@
                             android:layout_height="wrap_content"
                             android:layout_gravity="center_vertical"
                             android:layout_marginEnd="16dp"
+                            android:contentDescription="@string/bookmark_button_desc"
                             app:srcCompat="@drawable/bookmark" />
 
                         <ImageView
@@ -99,6 +103,7 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_gravity="center_vertical"
+                            android:contentDescription="@string/share"
                             app:srcCompat="@drawable/share" />
                     </LinearLayout>
 

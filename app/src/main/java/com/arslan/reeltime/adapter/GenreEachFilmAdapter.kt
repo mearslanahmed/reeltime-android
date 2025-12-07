@@ -13,12 +13,12 @@ class GenreEachFilmAdapter(private  val items: List<String>):
     override fun onCreateViewHolder(
         parent: ViewGroup,
         viewType: Int
-    ): GenreEachFilmAdapter.ViewHolder {
+    ): ViewHolder {
         val binding = ViewholderGenreBinding.inflate((LayoutInflater.from(parent.context)), parent, false)
         return ViewHolder(binding)
     }
 
-    override fun onBindViewHolder(holder: GenreEachFilmAdapter.ViewHolder, position: Int) {
+    override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         holder.binding.titleTxt.text = items[position]
     }
 

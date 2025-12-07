@@ -29,7 +29,7 @@ RecyclerView.Adapter<CastListAdapter.ViewHolder>(){
     override fun onCreateViewHolder(
         parent: ViewGroup,
         viewType: Int
-    ): CastListAdapter.ViewHolder {
+    ): ViewHolder {
         context = parent.context
         val binding = ViewholderCastBinding.inflate(
             LayoutInflater.from(parent.context), parent,
@@ -38,7 +38,7 @@ RecyclerView.Adapter<CastListAdapter.ViewHolder>(){
         return ViewHolder(binding)
     }
 
-    override fun onBindViewHolder(holder: CastListAdapter.ViewHolder, position: Int) {
+    override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         holder.bind(cast[position])
     }
 

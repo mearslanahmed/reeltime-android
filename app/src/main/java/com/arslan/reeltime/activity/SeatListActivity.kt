@@ -7,6 +7,7 @@ import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.LinearLayoutManager
+import com.arslan.reeltime.R
 import com.arslan.reeltime.adapter.DateAdapter
 import com.arslan.reeltime.adapter.SeatListAdapter
 import com.arslan.reeltime.adapter.TimeAdapter
@@ -91,7 +92,7 @@ class SeatListActivity : AppCompatActivity() {
             seatRecyclerView.layoutManager = gridLayoutManager
 
             val seatList = mutableListOf<Seat>()
-            val numberSeats = 81
+//            val numberSeats = 81
             val totalRows = 11
             val seatsPerRow = 7
             for (i in 0 until totalRows * seatsPerRow) {
@@ -109,7 +110,7 @@ class SeatListActivity : AppCompatActivity() {
                 SeatListAdapter(seatList, this@SeatListActivity, object : SeatListAdapter.SelectedSeats {
                     override fun Return(slectedName: String, num: Int) {
                         runOnUiThread {
-                            numberSelectedTxt.text = "$num Seat Selected"
+                            numberSelectedTxt.text = getString(R.string.seat_selected, num)
                             val df = DecimalFormat("#.##")
                             price = df.format(num * (film.Price ?: 0.0)).toDouble()
                             selectedSeats = num
@@ -141,7 +142,7 @@ class SeatListActivity : AppCompatActivity() {
     }
 
     private fun getIntentExtra() {
-        film = intent.getSerializableExtra("film") as Film
+        film = intent.getSerializableExtra("film", Film::class.java) as Film
     }
 
     private fun generateDates(): List<String> {

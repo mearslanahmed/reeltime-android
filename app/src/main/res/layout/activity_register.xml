@@ -13,7 +13,7 @@
         android:layout_height="wrap_content"
         android:layout_centerHorizontal="true"
         android:layout_marginTop="60dp"
-        android:text="Create an Account"
+        android:text="@string/create_an_account"
         android:textColor="@color/white"
         android:textSize="24sp"
         android:textStyle="bold" />
@@ -25,7 +25,7 @@
         android:layout_below="@id/registerTitle"
         android:layout_alignStart="@id/nameEdt"
         android:layout_marginTop="24dp"
-        android:text="Name"
+        android:text="@string/name"
         android:textColor="@color/white"
         android:textStyle="bold" />
 
@@ -36,8 +36,9 @@
         android:layout_below="@id/nameLabel"
         android:layout_marginHorizontal="32dp"
         android:layout_marginTop="8dp"
+        android:autofillHints="Name"
         android:background="@drawable/edit_text_bg"
-        android:hint="Enter your name"
+        android:hint="@string/enter_your_name"
         android:inputType="textPersonName"
         android:padding="12dp"
         android:textColor="@color/white"
@@ -52,7 +53,7 @@
         android:layout_below="@id/nameEdt"
         android:layout_alignStart="@id/emailEdt"
         android:layout_marginTop="16dp"
-        android:text="Email"
+        android:text="@string/email"
         android:textColor="@color/white"
         android:textStyle="bold" />
 
@@ -63,8 +64,9 @@
         android:layout_below="@id/emailLabel"
         android:layout_marginHorizontal="32dp"
         android:layout_marginTop="8dp"
+        android:autofillHints="Email"
         android:background="@drawable/edit_text_bg"
-        android:hint="Email"
+        android:hint="@string/enter_your_email"
         android:inputType="textEmailAddress"
         android:padding="12dp"
         android:textColor="@color/white"
@@ -79,7 +81,7 @@
         android:layout_below="@id/emailEdt"
         android:layout_alignStart="@id/passwordInputLayout"
         android:layout_marginTop="16dp"
-        android:text="Password"
+        android:text="@string/password"
         android:textColor="@color/white"
         android:textStyle="bold" />
 
@@ -101,7 +103,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:background="@drawable/edit_text_bg"
-            android:hint="Password"
+            android:hint="@string/enter_password"
             android:inputType="textPassword"
             android:textColor="@color/white"
             android:textColorHint="@color/grey" />
@@ -114,7 +116,7 @@
         android:layout_below="@id/passwordInputLayout"
         android:layout_alignStart="@id/confirmPasswordInputLayout"
         android:layout_marginTop="16dp"
-        android:text="Confirm Password"
+        android:text="@string/confirm_password"
         android:textColor="@color/white"
         android:textStyle="bold" />
 
@@ -136,7 +138,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:background="@drawable/edit_text_bg"
-            android:hint="Confirm Password"
+            android:hint="@string/Re_confirm_password"
             android:inputType="textPassword"
             android:textColor="@color/white"
             android:textColorHint="@color/grey" />
@@ -151,7 +153,7 @@
         android:layout_centerHorizontal="true"
         android:layout_marginTop="24dp"
         android:background="@drawable/green_bg"
-        android:text="Register"
+        android:text="@string/register"
         android:textStyle="bold"
         android:textColor="@color/white" />
 
@@ -162,7 +164,7 @@
         android:layout_below="@id/registerBtn"
         android:layout_centerHorizontal="true"
         android:layout_marginTop="16dp"
-        android:text="Already have an account? Login"
+        android:text="@string/already_have_an_account_login"
         android:textColor="@color/white" />
 
     <ProgressBar

@@ -40,7 +40,7 @@ RecyclerView.Adapter<FilmListAdapter.ViewHolder>(){
     override fun onCreateViewHolder(
         parent: ViewGroup,
         viewType: Int
-    ): FilmListAdapter.ViewHolder {
+    ): ViewHolder {
         context = parent.context
         val binding = ViewholderFilmBinding.inflate(
             LayoutInflater.from(context), parent,
@@ -49,7 +49,7 @@ RecyclerView.Adapter<FilmListAdapter.ViewHolder>(){
         return ViewHolder(binding)
     }
 
-    override fun onBindViewHolder(holder: FilmListAdapter.ViewHolder, position: Int) {
+    override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         holder.bind(items[position])
     }
 

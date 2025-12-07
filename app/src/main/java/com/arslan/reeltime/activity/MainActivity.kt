@@ -3,6 +3,7 @@ package com.arslan.reeltime.activity
 import android.content.Intent
 import android.os.Bundle
 import android.os.Handler
+import android.os.Looper
 import android.util.Log
 import android.view.View
 import androidx.activity.enableEdgeToEdge
@@ -24,19 +25,20 @@ import com.google.firebase.database.DatabaseReference
 import com.google.firebase.database.FirebaseDatabase
 import com.google.firebase.database.ValueEventListener
 import com.ismaeldivita.chipnavigation.ChipNavigationBar
+import kotlin.math.abs
 
 class MainActivity : AppCompatActivity() {
     private lateinit var binding: ActivityMainBinding
     private lateinit var database: FirebaseDatabase
-    private val sliderHandle = Handler()
+    private val sliderHandle = Handler(Looper.getMainLooper())
     private val sliderRunnable = Runnable {
-        binding.viewPager2.currentItem = binding.viewPager2.currentItem + 1
+        binding.viewPager2.currentItem += 1
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        binding = ActivityMainBinding.inflate(layoutInflater)
         enableEdgeToEdge()
+        binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
         database = FirebaseDatabase.getInstance()
@@ -75,18 +77,18 @@ class MainActivity : AppCompatActivity() {
         if (user != null) {
             binding.greetingTxt.text = "Hello, ${user.displayName}"
         } else {
-            binding.greetingTxt.text = "Hello, Guest"
+            binding.greetingTxt.text = getString(R.string.hello_guest)
         }
     }
 
     private fun initTopMovies() {
         val myRef: DatabaseReference = database.getReference("Items")
         binding.progressBarTopMovies.visibility = View.VISIBLE
-        val items = ArrayList<Film>()
 
         myRef.addListenerForSingleValueEvent(object : ValueEventListener {
             override fun onDataChange(snapshot: DataSnapshot) {
                 if (snapshot.exists()) {
+                    val items = mutableListOf<Film>()
                     for (i in snapshot.children) {
                         val item = i.getValue(Film::class.java)
                         if (item != null) {
@@ -94,11 +96,8 @@ class MainActivity : AppCompatActivity() {
                         }
                     }
                     if (items.isNotEmpty()) {
-                        binding.recyclerViewTopMovies.layoutManager = LinearLayoutManager(
-                            this@MainActivity,
-                            LinearLayoutManager.HORIZONTAL, false
-                        )
-                        binding.recyclerViewTopMovies.adapter = FilmListAdapter(items)
+                        binding.recyclerViewTopMovies.layoutManager = LinearLayoutManager(this@MainActivity, LinearLayoutManager.HORIZONTAL, false)
+                        binding.recyclerViewTopMovies.adapter = FilmListAdapter(items as ArrayList<Film>)
                     }
                     binding.progressBarTopMovies.visibility = View.GONE
                 }
@@ -142,7 +141,7 @@ class MainActivity : AppCompatActivity() {
 
         val compositePageTransformer = CompositePageTransformer().apply {
             addTransformer { page, position ->
-                val r = 1 - Math.abs(position)
+                val r = 1 - abs(position)
                 page.scaleY = 0.85f + r * 0.15f
             }
         }
@@ -160,11 +159,11 @@ class MainActivity : AppCompatActivity() {
     private fun initUpcoming() {
         val myRef: DatabaseReference = database.getReference("Upcomming")
         binding.progressBarUpcoming.visibility = View.VISIBLE
-        val items = ArrayList<Film>()
 
         myRef.addListenerForSingleValueEvent(object : ValueEventListener {
             override fun onDataChange(snapshot: DataSnapshot) {
                 if (snapshot.exists()) {
+                    val items = mutableListOf<Film>()
                     for (i in snapshot.children) {
                         val item = i.getValue(Film::class.java)
                         if (item != null) {
@@ -172,11 +171,8 @@ class MainActivity : AppCompatActivity() {
                         }
                     }
                     if (items.isNotEmpty()) {
-                        binding.recyclerViewUpcoming.layoutManager = LinearLayoutManager(
-                            this@MainActivity,
-                            LinearLayoutManager.HORIZONTAL, false
-                        )
-                        binding.recyclerViewUpcoming.adapter = FilmListAdapter(items)
+                        binding.recyclerViewUpcoming.layoutManager = LinearLayoutManager(this@MainActivity, LinearLayoutManager.HORIZONTAL, false)
+                        binding.recyclerViewUpcoming.adapter = FilmListAdapter(items as ArrayList<Film>)
                     }
                     binding.progressBarUpcoming.visibility = View.GONE
                 }

@@ -32,6 +32,7 @@
                     android:id="@+id/imageView4"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:contentDescription="Profile pic"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toTopOf="parent"
@@ -57,6 +58,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="50dp"
                 android:layout_margin="16dp"
+                android:autofillHints="Search Movies"
                 android:background="@drawable/light_black_bg"
                 android:drawableStart="@drawable/search"
                 android:drawablePadding="8dp"
@@ -155,7 +157,7 @@
                 android:orientation="horizontal">
 
                 <TextView
-                    android:layout_width="wrap_content"
+                    android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
                     android:text="@string/upcoming_movies"
@@ -181,7 +183,7 @@
                     android:id="@+id/recyclerViewUpcoming"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
-                    android.clipToPadding="false"
+                    android:clipToPadding="false"
                     android:paddingStart="12dp"
                     android:paddingEnd="12dp"
                     app:layout_constraintEnd_toEndOf="parent"

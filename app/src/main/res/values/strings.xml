@@ -36,6 +36,38 @@
     <string name="share">Share</string>
     <string name="add_to_calendar">Add to Calendar</string>
     <string name="imdb_rating">IMDB %.1f</string>
-    <string name="movie_duration">%d - %s</string>
+    <string name="movie_duration">%1$d - %2$s</string>
     <string name="saved_movies">Saved Movies</string>
+    <string name="greetingTxt">Hello, %1$s</string>
+    <string name="hello_guest">Hello, Guest</string>
+    <string name="seat_selected">%1$d Seat Selected</string>
+    <string name="my_profile">My Profile</string>
+    <string name="name">Name</string>
+    <string name="email">Email</string>
+    <string name="logout">Logout</string>
+    <string name="back_button_desc">Back</string>
+    <string name="profile_image_desc">Profile Image</string>
+
+    <!-- Missing Strings for DetailFilmActivity -->
+    <string name="movie_pic">Movie Picture</string>
+    <string name="movie_title">Movie Title</string>
+    <string name="bookmark_button_desc">Bookmark</string>
+
+    <!-- Missing Strings for LoginActivity -->
+    <string name="login_to_your_account">Login to your Account</string>
+    <string name="enter_your_email">Enter your email</string>
+    <string name="password">Password</string>
+    <string name="enter_your_password">Enter your password</string>
+    <string name="login">Login</string>
+    <string name="don_t_have_an_account_register">Don\'t have an account? Register</string>
+    <string name="confirm_password">Confirm Password</string>
+    <string name="enter_your_name">Enter your name</string>
+    <string name="already_have_an_account_login">Already have an account? Login</string>
+    <string name="create_an_account">Create an Account</string>
+    <string name="register">Register</string>
+    <string name="Re_confirm_password">Confirm Password</string>
+    <string name="enter_password">Password</string>
+    <string name="select_you_seats">Select you seats</string>
+    <string name="movie_banner">Movie Banner</string>
+    <string name="qr_code">Qr code</string>
 </resources>

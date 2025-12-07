@@ -8,11 +8,12 @@
     tools:context=".activity.ProfileActivity">
 
     <ImageView
-        android:id="@+id/backButton"
+        android:id="@+id/backBtn"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginHorizontal="16dp"
         android:layout_marginTop="57dp"
+        android:contentDescription="@string/back_button_desc"
         app:srcCompat="@drawable/back_2" />
 
     <TextView
@@ -21,66 +22,114 @@
         android:layout_height="wrap_content"
         android:layout_centerHorizontal="true"
         android:layout_marginTop="60dp"
-        android:text="My Profile"
+        android:text="@string/my_profile"
         android:textColor="@color/white"
         android:textSize="24sp"
         android:textStyle="bold" />
 
-    <FrameLayout
-        android:id="@+id/avatarContainer"
-        android:layout_width="120dp"
-        android:layout_height="120dp"
+    <!-- START: CardView container -->
+    <androidx.cardview.widget.CardView
+        android:id="@+id/infoCard"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
         android:layout_below="@id/profileTitle"
-        android:layout_centerHorizontal="true"
-        android:layout_marginTop="32dp">
+        android:layout_marginHorizontal="24dp"
+        android:layout_marginTop="32dp"
+        app:cardBackgroundColor="#1F1D2B"
+        app:cardCornerRadius="20dp"
+        app:cardElevation="4dp">
 
-        <androidx.cardview.widget.CardView
-            android:id="@+id/avatarCard"
+        <RelativeLayout
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            app:cardBackgroundColor="@color/green"
-            app:cardCornerRadius="60dp">
+            android:layout_height="wrap_content"
+            android:paddingBottom="24dp">
 
-            <ImageView
-                android:id="@+id/profileImage"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:scaleType="centerCrop" />
+            <FrameLayout
+                android:id="@+id/avatarContainer"
+                android:layout_width="120dp"
+                android:layout_height="120dp"
+                android:layout_centerHorizontal="true"
+                android:layout_marginTop="24dp">
+
+                <androidx.cardview.widget.CardView
+                    android:id="@+id/avatarCard"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    app:cardBackgroundColor="@color/green"
+                    app:cardCornerRadius="60dp">
+
+                    <ImageView
+                        android:id="@+id/profileImage"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:scaleType="centerCrop"
+                        android:contentDescription="@string/profile_image_desc" />
+
+                    <TextView
+                        android:id="@+id/initialsTxt"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:gravity="center"
+                        android:textColor="@color/white"
+                        android:textSize="48sp"
+                        android:textStyle="bold"
+                        tools:text="A" />
+                </androidx.cardview.widget.CardView>
+            </FrameLayout>
+
+            <!-- START: Updated Name Section with Label -->
+            <TextView
+                android:id="@+id/nameLabel"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/avatarContainer"
+                android:layout_centerHorizontal="true"
+                android:layout_marginTop="20dp"
+                android:text="@string/name"
+                android:textColor="@color/grey"
+                android:textSize="14sp" />
 
             <TextView
-                android:id="@+id/initialsTxt"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:gravity="center"
+                android:id="@+id/nameTxt"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/nameLabel"
+                android:layout_centerHorizontal="true"
+                android:layout_marginTop="4dp"
                 android:textColor="@color/white"
-                android:textSize="48sp"
+                android:textSize="18sp"
                 android:textStyle="bold"
-                tools:text="A" />
-        </androidx.cardview.widget.CardView>
-    </FrameLayout>
+                tools:text="Arslan Ahmed" />
+            <!-- END: Updated Name Section -->
 
-    <TextView
-        android:id="@+id/nameTxt"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_below="@id/avatarContainer"
-        android:layout_centerHorizontal="true"
-        android:layout_marginTop="16dp"
-        android:textColor="@color/white"
-        android:textSize="22sp"
-        android:textStyle="bold"
-        tools:text="Arslan Ahmed" />
 
-    <TextView
-        android:id="@+id/emailTxt"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_below="@id/nameTxt"
-        android:layout_centerHorizontal="true"
-        android:layout_marginTop="4dp"
-        android:textColor="@color/grey"
-        android:textSize="16sp"
-        tools:text="user@example.com" />
+            <!-- START: Updated Email Section with Label -->
+            <TextView
+                android:id="@+id/emailLabel"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/nameTxt"
+                android:layout_centerHorizontal="true"
+                android:layout_marginTop="16dp"
+                android:text="@string/email"
+                android:textColor="@color/grey"
+                android:textSize="14sp" />
+
+            <TextView
+                android:id="@+id/emailTxt"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/emailLabel"
+                android:layout_centerHorizontal="true"
+                android:layout_marginTop="4dp"
+                android:textColor="@color/white"
+                android:textSize="16sp"
+                tools:text="user@example.com" />
+            <!-- END: Updated Email Section -->
+
+        </RelativeLayout>
+    </androidx.cardview.widget.CardView>
+    <!-- END: CardView container -->
 
     <androidx.appcompat.widget.AppCompatButton
         android:id="@+id/logoutBtn"
@@ -90,7 +139,7 @@
         android:layout_marginHorizontal="32dp"
         android:layout_marginBottom="40dp"
         android:background="@drawable/green_bg"
-        android:text="Logout"
+        android:text="@string/logout"
         android:textColor="@color/white"
         android:textStyle="bold" />
 

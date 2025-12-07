@@ -39,7 +39,7 @@ class SliderAdapter(
     override fun onCreateViewHolder(
         parent: ViewGroup,
         viewType: Int
-    ): SliderAdapter.SliderViewHolder {
+    ): SliderViewHolder {
         context = parent.context
         val binding = ViewholderSliderBinding.inflate(
             LayoutInflater.from(parent.context),
@@ -49,7 +49,7 @@ class SliderAdapter(
         return SliderViewHolder(binding)
     }
 
-    override fun onBindViewHolder(holder: SliderAdapter.SliderViewHolder, position: Int) {
+    override fun onBindViewHolder(holder: SliderViewHolder, position: Int) {
         holder.bind(SliderItems[position])
         if (position == SliderItems.size - 2){
             viewPager2.post(runnable)
