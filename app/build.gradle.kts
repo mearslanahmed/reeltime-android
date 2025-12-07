@@ -16,8 +16,6 @@ android {
         versionName = "1.0"
 
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
-        // Enable RenderScript support for the BlurView library
-        renderscriptSupportModeEnabled = true
     }
 
     buildTypes {
@@ -37,7 +35,6 @@ android {
         jvmTarget = "11"
     }
     buildFeatures {
-        renderScript = true
         viewBinding = true
     }
 }
