@@ -31,9 +31,8 @@ class MyTicketsAdapter(
             binding.root.setOnClickListener {
                 val context = binding.root.context
                 val intent = Intent(context, TicketActivity::class.java)
-                intent.putExtra("filmTitle", ticket.filmTitle)
-                intent.putExtra("seatIds", ticket.seatIds)
-                intent.putExtra("totalPrice", ticket.totalPrice)
+                // Pass the entire TicketData object
+                intent.putExtra("ticketData", ticket)
                 context.startActivity(intent)
             }
 

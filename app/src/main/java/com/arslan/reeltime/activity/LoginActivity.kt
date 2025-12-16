@@ -2,6 +2,7 @@ package com.arslan.reeltime.activity
 
 import android.content.Intent
 import android.os.Bundle
+import android.view.View
 import android.widget.Toast
 import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
@@ -25,8 +26,14 @@ class LoginActivity : AppCompatActivity() {
             val password = binding.passwordEdt.text.toString()
 
             if (email.isNotEmpty() && password.isNotEmpty()) {
+                binding.progressBar.visibility = View.VISIBLE
+                binding.loginBtn.isEnabled = false
+
                 auth.signInWithEmailAndPassword(email, password)
                     .addOnCompleteListener(this) { task ->
+                        binding.progressBar.visibility = View.GONE
+                        binding.loginBtn.isEnabled = true
+
                         if (task.isSuccessful) {
                             // Sign in success, navigate to main activity
                             startActivity(Intent(this, MainActivity::class.java))

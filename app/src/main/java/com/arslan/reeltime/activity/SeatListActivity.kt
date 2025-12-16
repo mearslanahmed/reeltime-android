@@ -44,15 +44,29 @@ class SeatListActivity : AppCompatActivity() {
 
     private fun downloadTicketBtn() {
         binding.downloadBtn.setOnClickListener {
-            if (selectedSeats > 0) {
-                saveTicketToFirebase()
-            } else {
+            val selectedDate = (binding.dateRecyclerview.adapter as DateAdapter).getSelectedDate()
+            val selectedTime = (binding.timeRecyclerview.adapter as TimeAdapter).getSelectedTime()
+
+            if (selectedSeats == 0) {
                 Toast.makeText(this, "Please select at least one seat", Toast.LENGTH_SHORT).show()
+                return@setOnClickListener
             }
+
+            if (selectedDate == null) {
+                Toast.makeText(this, "Please select a date", Toast.LENGTH_SHORT).show()
+                return@setOnClickListener
+            }
+
+            if (selectedTime == null) {
+                Toast.makeText(this, "Please select a time", Toast.LENGTH_SHORT).show()
+                return@setOnClickListener
+            }
+
+            saveTicketToFirebase(selectedDate, selectedTime)
         }
     }
 
-    private fun saveTicketToFirebase() {
+    private fun saveTicketToFirebase(selectedDate: String, selectedTime: String) {
         val userId = FirebaseAuth.getInstance().currentUser?.uid ?: return
         val database = FirebaseDatabase.getInstance().getReference("tickets").child(userId)
         val ticketId = database.push().key!!
@@ -63,16 +77,15 @@ class SeatListActivity : AppCompatActivity() {
             seatIds = selectedSeatNames,
             totalPrice = price,
             poster = film.Poster,
-            date = (binding.dateRecyclerview.adapter as DateAdapter).getSelectedDate(),
-            time = (binding.timeRecyclerview.adapter as TimeAdapter).getSelectedTime()
+            date = selectedDate,
+            time = selectedTime
         )
 
-        database.child(ticketId).setValue(ticketData).addOnCompleteListener {
-            if (it.isSuccessful) {
+        database.child(ticketId).setValue(ticketData).addOnCompleteListener { task ->
+            if (task.isSuccessful) {
+                // Pass the complete ticket object to the next activity
                 val intent = Intent(this@SeatListActivity, TicketActivity::class.java)
-                intent.putExtra("filmTitle", film.Title)
-                intent.putExtra("seatIds", selectedSeatNames)
-                intent.putExtra("totalPrice", price)
+                intent.putExtra("ticketData", ticketData)
                 startActivity(intent)
             } else {
                 Toast.makeText(this, "Failed to save ticket", Toast.LENGTH_SHORT).show()
@@ -92,7 +105,6 @@ class SeatListActivity : AppCompatActivity() {
             seatRecyclerView.layoutManager = gridLayoutManager
 
             val seatList = mutableListOf<Seat>()
-//            val numberSeats = 81
             val totalRows = 11
             val seatsPerRow = 7
             for (i in 0 until totalRows * seatsPerRow) {

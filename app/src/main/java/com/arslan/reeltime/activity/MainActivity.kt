@@ -18,6 +18,8 @@ import com.arslan.reeltime.adapter.SliderAdapter
 import com.arslan.reeltime.databinding.ActivityMainBinding
 import com.arslan.reeltime.model.Film
 import com.arslan.reeltime.model.SliderItems
+import com.arslan.reeltime.model.User
+import com.bumptech.glide.Glide
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.database.DataSnapshot
 import com.google.firebase.database.DatabaseError
@@ -30,6 +32,7 @@ import kotlin.math.abs
 class MainActivity : AppCompatActivity() {
     private lateinit var binding: ActivityMainBinding
     private lateinit var database: FirebaseDatabase
+    private lateinit var auth: FirebaseAuth
     private val sliderHandle = Handler(Looper.getMainLooper())
     private val sliderRunnable = Runnable {
         binding.viewPager2.currentItem += 1
@@ -42,10 +45,11 @@ class MainActivity : AppCompatActivity() {
         setContentView(binding.root)
 
         database = FirebaseDatabase.getInstance()
+        auth = FirebaseAuth.getInstance()
+
         initBanner()
         initTopMovies()
         initUpcoming()
-        setUserName()
 
         binding.bottomMenu.setOnItemSelectedListener(object : ChipNavigationBar.OnItemSelectedListener {
             override fun onItemSelected(id: Int) {
@@ -70,14 +74,52 @@ class MainActivity : AppCompatActivity() {
     override fun onResume() {
         super.onResume()
         binding.bottomMenu.setItemSelected(R.id.explorer, true)
+        loadUserProfile()
     }
 
-    private fun setUserName() {
-        val user = FirebaseAuth.getInstance().currentUser
+    private fun loadUserProfile() {
+        val user = auth.currentUser
         if (user != null) {
             binding.greetingTxt.text = "Hello, ${user.displayName}"
+
+            val userRef = database.getReference("Users").child(user.uid)
+            userRef.addValueEventListener(object : ValueEventListener {
+                override fun onDataChange(snapshot: DataSnapshot) {
+                    if (snapshot.exists()) {
+                        val profileImageUrl = snapshot.child("profileImageUrl").getValue(String::class.java)
+
+                        if (!profileImageUrl.isNullOrEmpty()) {
+                            binding.profileImageMain.visibility = View.VISIBLE
+                            binding.initialsTxt.visibility = View.GONE
+                            Glide.with(this@MainActivity)
+                                .load(profileImageUrl)
+                                .placeholder(R.drawable.profile)
+                                .into(binding.profileImageMain)
+                        } else {
+                            binding.profileImageMain.visibility = View.GONE
+                            binding.initialsTxt.visibility = View.VISIBLE
+                            if (!user.displayName.isNullOrEmpty()) {
+                                binding.initialsTxt.text = user.displayName!![0].toString().uppercase()
+                            }
+                        }
+                    } else {
+                        // Self-healing in case the DB record is missing
+                        val name = user.displayName
+                        val email = user.email
+                        if (!name.isNullOrEmpty() && !email.isNullOrEmpty()) {
+                            val newUser = User(name, email)
+                            userRef.setValue(newUser)
+                        }
+                    }
+                }
+
+                override fun onCancelled(error: DatabaseError) {
+                    Log.w("MainActivity", "Could not load profile image: ${error.message}")
+                }
+            })
         } else {
             binding.greetingTxt.text = getString(R.string.hello_guest)
+            binding.initialsTxt.text = "G"
         }
     }
 

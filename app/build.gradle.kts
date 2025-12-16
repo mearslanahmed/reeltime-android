@@ -1,7 +1,15 @@
+import java.util.Properties
+
 plugins {
     alias(libs.plugins.android.application)
     alias(libs.plugins.kotlin.android)
     alias(libs.plugins.google.gms.google.services)
+}
+
+val cloudinaryProperties = Properties()
+val cloudinaryPropertiesFile = project.file("cloudinary.properties")
+if (cloudinaryPropertiesFile.exists()) {
+    cloudinaryProperties.load(cloudinaryPropertiesFile.inputStream())
 }
 
 android {
@@ -16,6 +24,10 @@ android {
         versionName = "1.0"
 
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
+
+        buildConfigField("String", "CLOUDINARY_CLOUD_NAME", "\"${cloudinaryProperties.getProperty("cloudinary_cloud_name")}\"")
+        buildConfigField("String", "CLOUDINARY_API_KEY", "\"${cloudinaryProperties.getProperty("cloudinary_api_key")}\"")
+        buildConfigField("String", "CLOUDINARY_API_SECRET", "\"${cloudinaryProperties.getProperty("cloudinary_api_secret")}\"")
     }
 
     buildTypes {
@@ -36,6 +48,7 @@ android {
     }
     buildFeatures {
         viewBinding = true
+        buildConfig = true
     }
 }
 
@@ -63,4 +76,5 @@ dependencies {
     implementation ("com.github.ismaeldivita:chip-navigation-bar:1.4.0")
     implementation("com.github.Dimezis:BlurView:version-3.2.0")
     implementation("com.google.zxing:core:3.5.4")
+    implementation("com.cloudinary:cloudinary-android:3.1.2")
 }

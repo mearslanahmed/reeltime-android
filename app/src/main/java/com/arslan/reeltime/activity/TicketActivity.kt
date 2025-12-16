@@ -4,6 +4,7 @@ import android.content.Intent
 import android.graphics.Bitmap
 import android.graphics.Canvas
 import android.graphics.Color
+import android.os.Build
 import android.os.Bundle
 import android.provider.CalendarContract
 import android.view.View
@@ -13,6 +14,7 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.FileProvider
 import com.arslan.reeltime.R
 import com.arslan.reeltime.databinding.ActivityTicketBinding
+import com.arslan.reeltime.model.TicketData
 import com.google.zxing.BarcodeFormat
 import com.google.zxing.WriterException
 import com.google.zxing.qrcode.QRCodeWriter
@@ -31,25 +33,46 @@ class TicketActivity : AppCompatActivity() {
         binding = ActivityTicketBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
-        Toast.makeText(this, "Ticket purchased successfully", Toast.LENGTH_SHORT).show()
+        val ticket = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
+            intent.getSerializableExtra("ticketData", TicketData::class.java)
+        } else {
+            @Suppress("DEPRECATION")
+            intent.getSerializableExtra("ticketData") as? TicketData
+        }
 
-        val filmTitle = intent.getStringExtra("filmTitle")
-        val seatIds = intent.getStringExtra("seatIds")
-        val totalPrice = intent.getDoubleExtra("totalPrice", 0.0)
+        if (ticket == null) {
+            Toast.makeText(this, "Error: Could not load ticket data.", Toast.LENGTH_LONG).show()
+            finish()
+            return
+        }
 
-        binding.titleTxt.text = filmTitle
-        binding.filmTitleTxt.text = filmTitle
-        binding.seatsTxt.text = seatIds
-        binding.ticketPriceTxt.text = getString(R.string.price_format, totalPrice)
+        // Check if this is a newly purchased ticket
+        if (intent.getBooleanExtra("isNewTicket", false)) {
+            Toast.makeText(this, "Ticket purchased successfully", Toast.LENGTH_SHORT).show()
+        }
+
+        updateUi(ticket)
 
         binding.TicketVBackBtn.setOnClickListener {
-            // Navigate back to the home screen
             val intent = Intent(this, MainActivity::class.java)
+            intent.flags = Intent.FLAG_ACTIVITY_CLEAR_TOP or Intent.FLAG_ACTIVITY_NEW_TASK
             startActivity(intent)
             finish()
         }
+    }
 
-        val qrCodeData = "Film: $filmTitle, Seats: $seatIds, Price: $totalPrice"
+    private fun updateUi(ticket: TicketData) {
+        binding.titleTxt.text = ticket.filmTitle
+        binding.filmTitleTxt.text = ticket.filmTitle
+        binding.seatsTxt.text = ticket.seatIds
+        binding.ticketPriceTxt.text = getString(R.string.price_format, ticket.totalPrice)
+
+        // The following views do not exist in your layout, so they are commented out.
+        // binding.dateTxt.text = ticket.date
+        // binding.timeTxt.text = ticket.time
+        // Glide.with(this).load(ticket.poster).into(binding.poster)
+
+        val qrCodeData = "Film: ${ticket.filmTitle}, Seats: ${ticket.seatIds}, Price: ${ticket.totalPrice}, Date: ${ticket.date}, Time: ${ticket.time}"
         try {
             val qrCodeBitmap = generateQrCode(qrCodeData)
             binding.qrCode.setImageBitmap(qrCodeBitmap)
@@ -62,7 +85,7 @@ class TicketActivity : AppCompatActivity() {
         }
 
         binding.calendarBtn.setOnClickListener {
-            addToCalendar(filmTitle)
+            addToCalendar(ticket.filmTitle)
         }
     }
 
@@ -82,17 +105,19 @@ class TicketActivity : AppCompatActivity() {
 
     private fun shareTicket() {
         val bitmap = getScreenShotFromView(binding.ticketLayout)
-        val file = File(externalCacheDir, "ticket.png")
-        val fOut = FileOutputStream(file)
-        bitmap?.compress(Bitmap.CompressFormat.PNG, 100, fOut)
-        fOut.flush()
-        fOut.close()
-        val uri = FileProvider.getUriForFile(this, "com.arslan.reeltime.provider", file)
+        if (bitmap != null) {
+            val file = File(externalCacheDir, "ticket.png")
+            val fOut = FileOutputStream(file)
+            bitmap.compress(Bitmap.CompressFormat.PNG, 100, fOut)
+            fOut.flush()
+            fOut.close()
+            val uri = FileProvider.getUriForFile(this, "com.arslan.reeltime.provider", file)
 
-        val intent = Intent(Intent.ACTION_SEND)
-        intent.type = "image/png"
-        intent.putExtra(Intent.EXTRA_STREAM, uri)
-        startActivity(Intent.createChooser(intent, "Share Ticket"))
+            val intent = Intent(Intent.ACTION_SEND)
+            intent.type = "image/png"
+            intent.putExtra(Intent.EXTRA_STREAM, uri)
+            startActivity(Intent.createChooser(intent, "Share Ticket"))
+        }
     }
 
     private fun getScreenShotFromView(view: View): Bitmap? {

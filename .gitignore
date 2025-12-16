@@ -23,6 +23,9 @@ key.properties
 # Local config
 local.properties
 app/google-services.json
+/build
+/cloudinary.properties
+app/cloudinary.properties
 
 # Kotlin-generated
 .kotlin/
