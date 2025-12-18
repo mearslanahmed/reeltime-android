@@ -14,7 +14,10 @@ ReelTime is a modern and intuitive Android application for browsing movies and b
 *   **My Tickets**: A list of all tickets purchased by the user, with the ability to view details or delete old tickets.
 *   **Saved Movies**: Users can bookmark movies from the detail screen to a personal "Saved" list for later viewing.
 *   **User Profile**: A profile screen displaying the user's name, email, and avatar, with a logout option.
+*   **Dynamic Profile Pictures**: Users can upload and update their profile pictures, which are managed and delivered via Cloudinary.
 *   **Modern UI**: Smooth animations and a blurred background effect for a polished user interface.
+
+For a more detailed overview of the project architecture and implementation, please refer to the documentation in the `docs` folder.
 
 ---
 
@@ -48,6 +51,11 @@ ReelTime is a modern and intuitive Android application for browsing movies and b
     *   [Chip Navigation Bar](https://github.com/ismaeldivita/chip-navigation-bar) - For the animated bottom navigation.
     *   [BlurView](https://github.com/Dimezis/BlurView) - For real-time background blur effects.
     *   [ZXing (Zebra Crossing)](https://github.com/zxing/zxing) - For generating QR codes on tickets.
+
+---
+
+## Documentation
+For a more detailed overview of the project architecture and implementation, please refer to the `ReelTime_Android_App_Documentation_v1.0.pdf` file in the `docs` folder.
 
 ---
 
