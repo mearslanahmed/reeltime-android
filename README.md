@@ -55,7 +55,7 @@ For a more detailed overview of the project architecture and implementation, ple
 ---
 
 ## Documentation
-For a more detailed overview of the project architecture and implementation, please refer to the `ReelTime_Android_App_Documentation_v1.0.pdf` file in the `docs` folder.
+For a more detailed overview of the project architecture and implementation, please refer to the `ReelTime_Android_App_Documentation_v1.1.0.pdf` file in the `docs` folder.
 
 ---
 
